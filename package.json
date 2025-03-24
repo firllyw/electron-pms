@@ -1,0 +1,76 @@
+{
+  "name": "ship-maintenance-system",
+  "version": "1.0.0",
+  "description": "Ship Planned Maintenance System",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "react-start": "react-scripts start",
+    "dev": "concurrently \"npm run react-start\" \"electron-forge start\"",
+    "electron-dev": "nodemon --watch main.js --watch preload.js --exec electron .",
+    "dev-all": "concurrently \"npm run react-start\" \"npm run electron-dev\"",
+    "package": "electron-builder build --win --publish never",
+    "postinstall": "electron-builder install-app-deps && electron-rebuild -f -w sqlite3",
+    "prebuild": "npm run rebuild-sqlite",
+    "rebuild-sqlite": "electron-rebuild -f -w sqlite3",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win --x64"
+  },
+  "build": {
+    "npmRebuild": true,
+    "buildDependenciesFromSource": true,
+    "appId": "com.yourcompany.ship-maintenance",
+    "productName": "Ship Maintenance System",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "src/**/*",
+      "main.js",
+      "preload.js"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  },
+  "dependencies": {
+    "antd": "^5.14.1",
+    "electron-is-dev": "^2.0.0",
+    "moment": "^2.30.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.1",
+    "react-scripts": "5.0.1",
+    "sqlite3": "^5.1.7",
+    "tailwindcss": "^3.3.5"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1",
+    "electron-rebuild": "^3.2.9",
+    "wait-on": "^7.2.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
