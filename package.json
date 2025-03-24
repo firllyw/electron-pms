@@ -4,18 +4,18 @@
   "description": "Ship Planned Maintenance System",
   "main": "main.js",
   "scripts": {
-    "dev": "concurrently \"npm run react-start\" \"electron-forge start\"",
-    "electron-dev": "nodemon --watch main.js --watch preload.js --exec electron .",
-    "dev-all": "concurrently \"npm run react-start\" \"npm run electron-dev\"",
-    "package": "electron-builder build --win --publish never",
-    "postinstall": "electron-builder install-app-deps",
-    "start": "concurrently \"npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "react-start": "react-scripts start",
     "electron-start": "electron .",
+    "electron-dev": "nodemon --watch main.js --watch preload.js --exec electron .",
+    "dev-all": "concurrently \"npm run react-start\" \"npm run electron-dev\"",
+    "postinstall": "electron-builder install-app-deps",
+    "start": "concurrently \"npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "dev": "concurrently \"npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "react-scripts build",
-    "electron-build": "electron-builder",
-    "release": "npm run build && electron-builder --publish=never",
-    "build:win": "npm run build && electron-builder --win --x64"
+    "postbuild": "webpack --config webpack.main.config.js",
+    "package": "npm run build && npm run postbuild && electron-builder build --win --publish never",
+    "release": "npm run build && npm run postbuild && electron-builder --publish=never",
+    "build:win": "npm run build && npm run postbuild && electron-builder --win --x64"
   },
   "build": {
     "appId": "com.ship.maintenance",
@@ -24,15 +24,12 @@
       "build/**/*",
       "node_modules/**/*",
       "public/electron.js",
-      "preload.js"
+      "preload.js",
+      "src/**/*"
     ],
     "directories": {
-      "buildResources": "assets"
-    },
-    "win": {
-      "target": [
-        "nsis"
-      ]
+      "buildResources": "assets",
+      "output": "dist"
     }
   },
   "dependencies": {

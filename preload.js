@@ -2,6 +2,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
+console.log('====== PRELOAD.JS IS RUNNING ======');
 contextBridge.exposeInMainWorld(
   'api', {
     // Authentication

@@ -1,15 +1,15 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
-const { initDatabase } = require('../src/db/database');
+const { initDatabase } = require('../src/db/database.js');
 
 // Import IPC handlers
-const registerIpcHandlers = require('../src/ipc');
+const registerIpcHandlers = require('../src/ipc/index.js');
 
 let mainWindow;
 let db;
 
-console.log('====== MAIN.JS IS RUNNING ======');
+console.log('====== ELECTRON.JS IS RUNNING ======');
 
 async function createWindow() {
   // Create the browser window
