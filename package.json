@@ -13,7 +13,7 @@
     "start": "concurrently \"npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "dev": "concurrently \"npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "react-scripts build",
-    "postbuild": "cp main.js build/ && cp preload.js build/",
+    "postbuild": "cp -f main.js build/ && cp -f preload.js build/",
     "package": "npm run build && electron-builder build --win --publish never --config.extraMetadata.main=main.js",
     "release": "npm run build && electron-builder --publish=never --config.extraMetadata.main=main.js",
     "build:win": "npm run build && electron-builder --win --x64 --config.extraMetadata.main=main.js"
@@ -25,8 +25,8 @@
       "build/**/*",
       "main.js",
       "preload.js",
-      "src/**/*",
       "node_modules/**/*",
+      "src/**/*",
       "package.json"
     ],
     "directories": {

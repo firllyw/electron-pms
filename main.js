@@ -29,12 +29,39 @@ async function createWindow() {
   });
 
   // Load the app
-  const startUrl = isDev 
-    ? 'http://localhost:3000' 
-    : `file://${path.join(__dirname, './index.html')}`;
+  let startUrl;
+  if (isDev) {
+    startUrl = 'http://localhost:3000';
+  } else {
+    // In production, we need to look for the index.html file in the correct location
+    // Try multiple paths to find the index.html file
+    const possiblePaths = [
+      path.join(__dirname, 'build/index.html'),
+      path.join(__dirname, 'index.html'),
+      path.join(__dirname, '../build/index.html'),
+      path.join(process.resourcesPath, 'app.asar/build/index.html'),
+      path.join(process.resourcesPath, 'app.asar/index.html')
+    ];
+    
+    let foundPath = null;
+    for (const htmlPath of possiblePaths) {
+      console.log('Checking path:', htmlPath);
+      if (fs.existsSync(htmlPath)) {
+        foundPath = htmlPath;
+        console.log('Found index.html at:', foundPath);
+        break;
+      }
+    }
+    
+    if (foundPath) {
+      startUrl = `file://${foundPath}`;
+    } else {
+      console.error('Could not find index.html in any of the expected locations');
+      startUrl = `file://${path.join(__dirname, 'build/index.html')}`;
+    }
+  }
   
   console.log('Loading URL:', startUrl);
-  
   mainWindow.loadURL(startUrl);
 
   // Open the DevTools in development mode
