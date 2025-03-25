@@ -144,6 +144,52 @@ function createTables() {
           )
         `);
       });
+
+      // Part table
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS parts (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          part_number TEXT NOT NULL,
+          manufacturer TEXT,
+          model TEXT,
+          stock INTEGER DEFAULT 0,
+          min_stock INTEGER DEFAULT 0,
+
+          technical_specs TEXT,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+
+      // Crewing table, unrelated to users, so it will have it's own details profile
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS crewing (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          bod TEXT NOT NULL,
+          country TEXT NOT NULL,
+          position TEXT NOT NULL,
+
+          role TEXT NOT NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+
+      // Crew Documents
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS crew_documents (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          crewing_id INTEGER NOT NULL,
+          name TEXT NOT NULL,
+          document_type TEXT NOT NULL,
+          document_number TEXT NOT NULL,
+          issued_date TEXT NOT NULL,
+          expiry_date TEXT NOT NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY (crewing_id) REFERENCES crewing (id)
+        )
+      `);
       
       // Execute the transaction
       transaction();

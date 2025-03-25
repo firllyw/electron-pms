@@ -9,6 +9,8 @@ const inventoryHandlers = require('./inventory-handler');
 const purchaseHandlers = require('./purchase-handler');
 const userHandlers = require('./user-handler');
 const { getOne } = require('../db/database');
+const crewingHandlers = require('./crewing-handler');
+const partHandlers = require('./part-handler');
 
 /**
  * Register all IPC handlers for the application
@@ -31,6 +33,10 @@ function registerIpcHandlers() {
   
   // Register user handlers
   userHandlers.register(ipcMain);
+
+  crewingHandlers.register(ipcMain);
+
+  partHandlers.register(ipcMain);
   
   // Application information
   ipcMain.handle('getAppVersion', async () => {
