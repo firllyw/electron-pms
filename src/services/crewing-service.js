@@ -299,6 +299,66 @@ class CrewingService {
       throw err;
     }
   }
+
+  /**
+   * Get all documents for a specific crew member
+   * @param {number} id - The crew member ID
+   * @returns {Promise<Array>} List of crew member documents
+   */
+  async getCrewMemberDocuments(id) {
+    try {
+      await this.ensureCrewDocumentsTable();
+      
+      return await getAll(
+        'SELECT * FROM crew_documents WHERE crewing_id = ? ORDER BY expiry_date',
+        [id]
+      );
+    } catch (err) {
+      console.error('Error fetching crew member documents:', err);
+      throw err;
+    }
+  }
+
+  /**
+   * Add a new document to a crew member
+   * @param {number} crewId - The crew member ID 
+   * @param {Object} document - The document data
+   * @returns {Promise<Object>} Result with success status and new document ID
+   */
+  async addCrewMemberDocument(crewId, document) {
+    try {
+      await this.ensureCrewDocumentsTable();
+      
+      // Check if crew member exists
+      const crewMember = await getOne('SELECT id FROM crewing WHERE id = ?', [crewId]);
+      if (!crewMember) {
+        return { success: false, message: 'Crew member not found' };
+      }
+
+      console.log('Adding document:', document, crewId);
+      const result = await runQuery(
+        `INSERT INTO crew_documents 
+          (crewing_id, name, document_type, document_number, issued_date, expiry_date)
+        VALUES (?, ?, ?, ?, ?, ?)`,
+        [
+          crewId,
+          document.name,
+          document.document_type,
+          document.document_number,
+          document.issued_date,
+          document.expiry_date
+        ]
+      );
+
+      return { 
+        success: Boolean(result.lastID),
+        id: result.lastID
+      };
+    } catch (err) {
+      console.error('Error adding crew member document:', err);
+      throw err;
+    }
+  }
   
   /**
    * Ensure the crewing table has the necessary structure

@@ -57,6 +57,15 @@ contextBridge.exposeInMainWorld(
       update: (id, data) => ipcRenderer.invoke('updateUser', id, data),
       delete: (id) => ipcRenderer.invoke('deleteUser', id)
     },
+
+    crewing: {
+      getAll: () => ipcRenderer.invoke('getCrewMembers'),
+      create: (data) => ipcRenderer.invoke('createCrewMember', data),
+      update: (id, data) => ipcRenderer.invoke('updateCrewMember', id, data),
+      delete: (id) => ipcRenderer.invoke('deleteCrewMember', id),
+      getDocuments: (id) => ipcRenderer.invoke('getCrewMemberDocuments', id),
+      addDocument: (id, data) => ipcRenderer.invoke('addCrewMemberDocument', id, data),
+    },
     
     // Application information
     app: {

@@ -141,7 +141,29 @@ export const mainMenuItems = [
         path: '/inventory/transactions'
       }
     ],
-    
+
+    crewing: [
+      {
+        key: 'crew-list',
+        icon: 'TeamOutlined',
+        label: 'Crew List',
+      },
+      {
+        key: 'rest-hours',
+        icon: 'ClockCircleOutlined',
+        label: 'Rest Hours',
+      },
+      {
+        key: 'voyages',
+        icon: 'CompassOutlined',
+        label: 'Voyages',
+      },
+      {
+        key: 'crew-settings',
+        icon: 'SettingOutlined',
+        label: 'Crew Settings',
+      }
+    ],
     // Add more sub-menus for other main menu items...
     
     // Default empty sub-menu

@@ -17,6 +17,7 @@ import NotFound from './pages/NotFound';
 // Auth context
 import { UserContext } from './components/Auth/UserContext';
 import MaintenanceWorklistPage from './pages/MaintenanceWorklistPage';
+import CrewOVerviewPage from './pages/CrewOverviewPage';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -112,13 +113,13 @@ const App = () => {
               </ProtectedRoute>
             } />
 
-            <Route path="/maintenance" element={
+            {/* <Route path="/maintenance" element={
               <ProtectedRoute>
                 <AppLayout>
                   <MaintenancePage />
                 </AppLayout>
               </ProtectedRoute>
-            } />
+            } /> */}
 
             <Route path="/maintenance/component" element={
               <ProtectedRoute>
@@ -148,6 +149,14 @@ const App = () => {
               <ProtectedRoute>
                 <AppLayout>
                   <PurchasePage />
+                </AppLayout>
+              </ProtectedRoute>
+            } />
+
+            <Route path="/crewing" element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <CrewOVerviewPage />
                 </AppLayout>
               </ProtectedRoute>
             } />

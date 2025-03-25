@@ -71,6 +71,25 @@ const crewingHandlers = {
         return [];
       }
     });
+
+    ipcMain.handle('getCrewMemberDocuments', async (event, crewId) => {
+      try {
+        return await crewingService.getCrewMemberDocuments(crewId);
+      } catch (err) {
+        console.error('Error in getCrewMemberDocuments handler:', err);
+        return [];
+      }
+    });
+
+    ipcMain.handle('addCrewMemberDocument', async (event, id, data) => {
+      try {
+        console.log('handler addCrewMemberDocument', id, data);
+        return await crewingService.addCrewMemberDocument(id, data);
+      } catch (err) {
+        console.error('Error in addCrewMemberDocument handler:', err);
+        return { success: false, message: err.message };
+      }
+    });
   }
 };
 
