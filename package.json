@@ -13,10 +13,10 @@
     "start": "concurrently \"npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "dev": "concurrently \"npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "react-scripts build",
-    "postbuild": "cp preload.js build/",
-    "package": "npm run build && npm run postbuild && electron-builder build --win --publish never",
-    "release": "npm run build && npm run postbuild && electron-builder --publish=never",
-    "build:win": "npm run build && npm run postbuild && electron-builder --win --x64"
+    "postbuild": "cp main.js build/ && cp preload.js build/",
+    "package": "npm run build && electron-builder build --win --publish never --config.extraMetadata.main=main.js",
+    "release": "npm run build && electron-builder --publish=never --config.extraMetadata.main=main.js",
+    "build:win": "npm run build && electron-builder --win --x64 --config.extraMetadata.main=main.js"
   },
   "build": {
     "appId": "com.ship.maintenance",
@@ -26,11 +26,15 @@
       "main.js",
       "preload.js",
       "src/**/*",
+      "node_modules/**/*",
       "package.json"
     ],
     "directories": {
       "buildResources": "assets",
-      "output": "dist"
+      "output": "distx"
+    },
+    "extraMetadata": {
+      "main": "main.js"
     },
     "extraResources": [
       {
