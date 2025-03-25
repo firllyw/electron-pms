@@ -11,4 +11,4 @@ module.exports = {
     __dirname: false
   },
   mode: 'production'
-};
+};  

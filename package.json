@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Ship Planned Maintenance System",
   "main": "main.js",
+  "homepage": "./",
   "scripts": {
     "react-start": "react-scripts start",
     "electron-start": "electron .",
@@ -12,7 +13,7 @@
     "start": "concurrently \"npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "dev": "concurrently \"npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "react-scripts build",
-    "postbuild": "webpack --config webpack.main.config.js",
+    "postbuild": "cp preload.js build/",
     "package": "npm run build && npm run postbuild && electron-builder build --win --publish never",
     "release": "npm run build && npm run postbuild && electron-builder --publish=never",
     "build:win": "npm run build && npm run postbuild && electron-builder --win --x64"
@@ -22,14 +23,36 @@
     "productName": "Ship Maintenance System",
     "files": [
       "build/**/*",
-      "node_modules/**/*",
-      "public/electron.js",
+      "main.js",
       "preload.js",
-      "src/**/*"
+      "src/**/*",
+      "package.json"
     ],
     "directories": {
       "buildResources": "assets",
       "output": "dist"
+    },
+    "extraResources": [
+      {
+        "from": "src/db",
+        "to": "src/db",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "src/ipc",
+        "to": "src/ipc",
+        "filter": ["**/*"]
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
     }
   },
   "dependencies": {
