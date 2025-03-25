@@ -84,20 +84,22 @@ class MaintenanceService {
         } else if (diffDays < 7) {
           status = 'soon';
         }
+        console.log('task', task.due_at, diffDays, status);
         
         // Calculate hours remaining if we have running hours
         let hoursRemaining = null;
-        if (task.interval_hours && task.current_running_hours) {
-          const lastDoneHours = task.last_done_hours || 0;
-          const nextDueHours = lastDoneHours + task.interval_hours;
-          hoursRemaining = nextDueHours - task.current_running_hours;
+        // if (task.interval_hours && task.current_running_hours) {
+        //   console.log('task', task);
+        //   const lastDoneHours = task.last_done_hours || 0;
+        //   const nextDueHours = lastDoneHours + task.interval_hours;
+        //   hoursRemaining = nextDueHours - task.current_running_hours;
           
-          if (hoursRemaining < 0) {
-            status = 'overdue';
-          } else if (hoursRemaining < 50) {
-            status = 'soon';
-          }
-        }
+        //   if (hoursRemaining < 0) {
+        //     status = 'overdue';
+        //   } else if (hoursRemaining < 50) {
+        //     status = 'soon';
+        //   }
+        // }
         
         return {
           ...task,

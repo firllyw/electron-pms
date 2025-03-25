@@ -63,11 +63,6 @@ async function createWindow() {
   
   console.log('Loading URL:', startUrl);
   mainWindow.loadURL(startUrl);
-
-  // Open the DevTools in development mode
-  if (isDev) {
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
-  }
   
   // Initialize SQLite database
   try {
